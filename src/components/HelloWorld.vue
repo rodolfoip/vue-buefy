@@ -1,32 +1,56 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+    <b-table
+      :data="isEmpty ? [] : data"
+      :bordered="isBordered"
+      :striped="isStriped"
+      :narrowed="isNarrowed"
+      :hoverable="isHoverable"
+      :loading="isLoading"
+      :focusable="isFocusable"
+      :mobile-cards="hasMobileCards">
+
+      <template slot-scope="props">
+        <b-table-column field="id" label="ID" width="40" numeric>
+          {{ props.row.id }}
+        </b-table-column>
+
+        <b-table-column field="first_name" label="First Name">
+          {{ props.row.first_name }}
+        </b-table-column>
+
+        <b-table-column field="last_name" label="Last Name">
+          {{ props.row.last_name }}
+        </b-table-column>
+
+        <b-table-column field="date" label="Date" centered>
+                    <span class="tag is-success">
+                        {{ new Date(props.row.date).toLocaleDateString() }}
+                    </span>
+        </b-table-column>
+
+        <b-table-column label="Gender">
+          <b-icon pack="fas"
+                  :icon="props.row.gender === 'Male' ? 'mars' : 'venus'">
+          </b-icon>
+          {{ props.row.gender }}
+        </b-table-column>
+      </template>
+
+      <template slot="empty">
+        <section class="section">
+          <div class="content has-text-grey has-text-centered">
+            <p>
+              <b-icon
+                icon="emoticon-sad"
+                size="is-large">
+              </b-icon>
+            </p>
+            <p>Nothing here.</p>
+          </div>
+        </section>
+      </template>
+    </b-table>
   </div>
 </template>
 
@@ -35,6 +59,27 @@ export default {
   name: 'HelloWorld',
   props: {
     msg: String
+  },
+  data() {
+    const data = [
+      { 'id': 1, 'first_name': 'Jesse', 'last_name': 'Simmons', 'date': '2016/10/15 13:43:27', 'gender': 'Male' },
+      { 'id': 2, 'first_name': 'John', 'last_name': 'Jacobs', 'date': '2016/12/15 06:00:53', 'gender': 'Male' },
+      { 'id': 3, 'first_name': 'Tina', 'last_name': 'Gilbert', 'date': '2016/04/26 06:26:28', 'gender': 'Female' },
+      { 'id': 4, 'first_name': 'Clarence', 'last_name': 'Flores', 'date': '2016/04/10 10:28:46', 'gender': 'Male' },
+      { 'id': 5, 'first_name': 'Anne', 'last_name': 'Lee', 'date': '2016/12/06 14:38:38', 'gender': 'Female' }
+    ]
+
+    return {
+      data,
+      isEmpty: false,
+      isBordered: false,
+      isStriped: false,
+      isNarrowed: false,
+      isHoverable: true,
+      isFocusable: false,
+      isLoading: false,
+      hasMobileCards: true
+    }
   }
 }
 </script>
